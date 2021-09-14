@@ -19,6 +19,16 @@ class PhoneValidatorTest {
     }
 
     @Test
+    void testPhoneNumberVariant() {
+        assertTrue(phoVal.validatePhone("868156265","LT"));
+    }
+
+    @Test
+    void testPhoneNumberVariantFail() {
+        assertFalse(phoVal.validatePhone("868165","LT"));
+    }
+
+    @Test
     void testDifferentCountry() {
         assertTrue(phoVal.validatePhone("+12345678912","US"));
     }

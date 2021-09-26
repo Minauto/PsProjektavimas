@@ -102,22 +102,36 @@ public class Validation {
             return arr;
         }
         if(emailPolicy.allowDomain){
-            String[] domainArr = emailPolicy.getDomains();
-            int domainLength;
-            int arrPoss;
+            String[] tldArr = emailPolicy.getTLDomains();
+            String[] domArr = emailPolicy.getDomains();
+            int tldLength;
+            int domLength;
+            int tldPoss;
+            int domPoss;
             char[] remainder;
-            for(int i=0;i<domainArr.length;i++){
-                domainLength = domainArr[i].length();
-                arrPoss=length-domainLength;
-
-                if(charArr[arrPoss-1]=='.'){
-                    remainder = new char[domainLength];
-                    for(int j=0;j<domainLength;j++){
-                        remainder[j]=charArr[arrPoss+j];
+            char[] dom;
+            for(int i=0;i<tldArr.length;i++){
+                tldLength = tldArr[i].length();
+                tldPoss=length-tldLength;
+                if(charArr[tldPoss-1]=='.'){
+                    remainder = new char[tldLength];
+                    for(int j=0;j<tldLength;j++){
+                        remainder[j]=charArr[tldPoss+j];
                     }
-                    if(charrayEquals(remainder,domainArr[i].toCharArray())){
-                        int[] arr = {};
-                        return arr;
+                    if(charrayEquals(remainder,tldArr[i].toCharArray())){
+                        for(int n=0;n<domArr.length;n++){
+                            domLength = domArr[n].length();
+                            domPoss=(tldPoss-domLength)-1;
+                            dom = new char[domLength];
+                            for(int m=0;m<domLength;m++){
+                                dom[m]=charArr[domPoss+m];
+                            }
+                            if(charrayEquals(dom,domArr[n].toCharArray())){
+                                int[] arr = {};
+                                return arr;
+                            }
+                        }
+
                     }
                 }
             }

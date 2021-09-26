@@ -6,6 +6,8 @@ public class EmailPolicy {
     String symbols;
     boolean allowDomain = false;
     String [] domains;
+    String [] dom = {"gmail"};
+
     public void haveRestrictedSymbols(boolean b) {
         this.restrict = b;
     }
@@ -22,7 +24,11 @@ public class EmailPolicy {
         domains = topLevelDomains;
     }
 
-    public String [] getDomains(){
+    public String [] getTLDomains(){
         return this.domains;
     }
+    public String [] getDomains(){
+        return this.dom;
+    }
+
 }

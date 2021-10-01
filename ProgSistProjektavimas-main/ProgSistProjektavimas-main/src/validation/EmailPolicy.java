@@ -6,7 +6,7 @@ public class EmailPolicy {
     String symbols;
     boolean allowDomain = false;
     String [] domains;
-    String [] dom = {"gmail"};
+    String [] dom = {"gmail","svetaine","netikras","abc"};
 
     public void haveRestrictedSymbols(boolean b) {
         this.restrict = b;

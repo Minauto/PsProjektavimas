@@ -4,60 +4,65 @@ public class Validation {
 
 
     public int[] checkPassword(String password, PasswordPolicy passwordPolicy) {
+        int[] arr = new int[0];
+        int tab=0;
+
         if(password.length() < passwordPolicy.minLength){
-            int[] arr = {1};
-            return arr;
+            arr = new int[3];
+            arr[tab] = 1;
+            tab++;
         }
         if(passwordPolicy.uppercase){
             char[] charArr = password.toCharArray();
             boolean a;
             int length = password.length();
+            int hasUpper = 0;
 
             for(int i=0;i<length;i++) {
-                a = Character.isUpperCase(charArr[i]);  //----- is this ok?
+                a = Character.isUpperCase(charArr[i]);
                 if (a) {
-                    int[] arr = {};
-                    return arr;
+                    hasUpper = 1;
                 }
             }
-            int[] arr2 = {2};
-            return arr2;
+            if(hasUpper == 0){
+                if(arr.length==0){
+                    arr = new int[3];
+                }
+                arr[tab] = 2;
+                tab++;
+            }
+
         }
         if(passwordPolicy.specialSymbols){
             char[] charArr = password.toCharArray();
             char[] symArr = passwordPolicy.symbols.toCharArray();
             int symLength = passwordPolicy.symbols.length();
             int length = password.length();
+            int hasSpecial = 0;
 
             for(int i=0;i<length;i++) {
                 for(int j=0;j<symLength; j++){
                     if(charArr[i] == symArr[j]){
-                        int[] arr = {};
-                        return arr;
+                        hasSpecial = 1;
                     }
                 }
             }
-            int[] arr3 = {3};
-            return arr3;
+            if(hasSpecial == 0){
+                if(arr.length==0){
+                    arr = new int[3];
+                }
+                arr[tab] = 3;
+                tab++;
+            }
         }
 
-        int[] arr = {};
         return arr;
     }
 
     public int[] checkPhoneNumber(String phoneNumber, PhoneNumberPolicy phoneNumberPolicy) {
         char[] charArr = phoneNumber.toCharArray();
         int length = phoneNumber.length();
-        int[] arrErr = {0};
-        if(phoneNumberPolicy.country == Country.NONE) {
-            arrErr[0] = 1;
-        }else{
-            arrErr[0] = 2;
-            if(strStartsWith(phoneNumber,phoneNumberPolicy.country.getPref())){
-            }else{
-                return arrErr;
-            }
-        }
+        int[] arrErr = {1};
             if (charArr[0] == '+' || charArr[0] == '0' || charArr[0] == '1' || charArr[0] == '2' || charArr[0] == '3' || charArr[0] == '4' || charArr[0] == '5' || charArr[0] == '6' || charArr[0] == '7' || charArr[0] == '8' || charArr[0] == '9') {
                 for (int i = 1; i < length; i++) {
                     if (charArr[i] != '0' && charArr[i] != '1' && charArr[i] != '2' && charArr[i] != '3' && charArr[i] != '4' && charArr[i] != '5' && charArr[i] != '6' && charArr[i] != '7' && charArr[i] != '8' && charArr[i] != '9') {
@@ -86,6 +91,24 @@ public class Validation {
     public int[] checkEmail(String email, EmailPolicy emailPolicy) {
         char[] charArr = email.toCharArray();
         int length = email.length();
+        int[] arr = new int[0];
+        int tab = 0;
+        int lengthCheck = 0;
+
+        for (int i=0;i<length;i++){
+            if(charArr[i]=='@'){
+                lengthCheck=1;
+            }
+        }
+        if(lengthCheck == 0){
+            if(arr.length==0){
+                arr = new int[3];
+            }
+            arr[tab] = 1;
+            tab++;
+        }
+
+
         if(emailPolicy.restrict){
             char[] symArr = emailPolicy.symbols.toCharArray();
             int symLength = emailPolicy.symbols.length();
@@ -93,13 +116,14 @@ public class Validation {
             for(int i=0;i<length;i++) {
                 for(int j=0;j<symLength; j++){
                     if(charArr[i] == symArr[j]){
-                        int[] arr = {2};
-                        return arr;
+                        if(arr.length==0){
+                            arr = new int[3];
+                        }
+                        arr[tab] = 2;
+                        tab++;
                     }
                 }
             }
-            int[] arr = {};
-            return arr;
         }
         if(emailPolicy.allowDomain){
             String[] tldArr = emailPolicy.getTLDomains();
@@ -108,6 +132,7 @@ public class Validation {
             int domLength;
             int tldPoss;
             int domPoss;
+            int domainCheck=0;
             char[] remainder;
             char[] dom;
             for(int i=0;i<tldArr.length;i++){
@@ -127,27 +152,21 @@ public class Validation {
                                 dom[m]=charArr[domPoss+m];
                             }
                             if(charrayEquals(dom,domArr[n].toCharArray())){
-                                int[] arr = {};
-                                return arr;
+                                domainCheck = 1;
                             }
                         }
 
                     }
                 }
             }
-            int[] arr = {3};
-            return arr;
-        }
-
-
-
-        for (int i=0;i<length;i++){
-            if(charArr[i]=='@'){
-                int[] arr = {};
-                return arr;
+            if(domainCheck == 0){
+                if(arr.length==0){
+                    arr = new int[3];
+                }
+                arr[tab] = 3;
+                tab++;
             }
         }
-        int[] arr = {1};
         return arr;
     }
 
